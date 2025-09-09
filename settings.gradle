@@ -1,0 +1,2 @@
+include ':libvlc'
+include ':vlc-android'
