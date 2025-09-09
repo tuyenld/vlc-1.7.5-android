@@ -1,0 +1,39 @@
+name: Build VLC 1.7.5 for Android
+
+on:
+  workflow_dispatch: # manual trigger
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t vlc-android-builder .
+
+      - name: Run build inside Docker
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/workspace vlc-android-builder bash -c "
+            set -e
+            git clone https://code.videolan.org/videolan/vlc-android.git
+            cd vlc-android
+            git checkout 1.7.5
+
+            # Compile native libs
+            ./compile.sh armv7
+
+            # Build APK
+            ./gradlew assembleDebug
+          "
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: vlc-android-apk
+          path: vlc-android/build/outputs/apk/debug/*.apk
+
