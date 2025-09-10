@@ -27,11 +27,12 @@ jobs:
 
             # Clone VLC Android sources if not present
             if [ ! -d vlc-android ]; then
-              git clone https://code.videolan.org/videolan/vlc-android.git
+              # git clone https://code.videolan.org/videolan/vlc-android.git
+              git clone --depth 1 --branch 1.7.5 https://code.videolan.org/videolan/vlc-android.git
             fi
             cd vlc-android
-            git fetch --all
-            git checkout 1.7.5
+            # git fetch --all
+            # git checkout 1.7.5
 
             # Mark repo as safe for Git (fix dubious ownership warning)
             git config --global --add safe.directory /workspace/vlc-android
