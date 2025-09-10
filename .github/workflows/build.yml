@@ -21,8 +21,7 @@ jobs:
         run: |
           docker run --rm -v ${{ github.workspace }}:/workspace vlc-android-builder bash -c "
             set -e
-            git clone https://code.videolan.org/videolan/vlc-android.git
-            cd vlc-android
+            cd /workspace
             git checkout 1.7.5
 
             # Compile native libs
@@ -31,6 +30,7 @@ jobs:
             # Build APK
             ./gradlew assembleDebug
           "
+
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
