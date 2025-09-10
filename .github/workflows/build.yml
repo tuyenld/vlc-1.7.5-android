@@ -22,6 +22,9 @@ jobs:
           docker run --rm -v ${{ github.workspace }}:/workspace vlc-android-builder bash -c "
             set -e
             cd /workspace
+
+            # Mark the repo safe for Git inside Docker
+            git config --global --add safe.directory /workspace
             git checkout 1.7.5
 
             # Compile native libs
