@@ -1,32 +1,32 @@
 FROM ubuntu:20.04
 
-# Noninteractive mode for apt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install build deps
+# Install required build dependencies
 RUN apt-get update && apt-get install -y \
     git curl unzip wget make automake autoconf libtool pkg-config \
     zlib1g-dev libncurses5-dev openjdk-8-jdk \
     python2 python3 zip \
     && rm -rf /var/lib/apt/lists/*
 
-# Setup environment
+# Java environment
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+# Android SDK paths
 ENV ANDROID_SDK=/opt/android-sdk
-ENV ANDROID_NDK=/opt/android-ndk-r10e
 ENV PATH=$ANDROID_SDK/tools:$ANDROID_SDK/platform-tools:$PATH
 
-# Install Android SDK (old r24.4.1)
+# Install Android SDK (r24.4.1 is stable for KitKat builds)
 RUN wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O /tmp/sdk.tgz \
     && tar -xzf /tmp/sdk.tgz -C /opt \
     && mv /opt/android-sdk-linux $ANDROID_SDK \
     && rm /tmp/sdk.tgz
 
-# Install Android NDK r10e (use .zip, since .bin is gone)
+# Install Android NDK r10e
 RUN wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip -O /tmp/ndk.zip \
-&& unzip /tmp/ndk.zip -d /opt \
-&& rm /tmp/ndk.zip \
-&& mv /opt/android-ndk-r10e $ANDROID_NDK
+    && unzip /tmp/ndk.zip -d /opt \
+    && rm /tmp/ndk.zip
+ENV ANDROID_NDK=/opt/android-ndk-r10e
 
 # Install Gradle 2.10
 RUN wget https://services.gradle.org/distributions/gradle-2.10-bin.zip -O /tmp/gradle.zip \
@@ -35,4 +35,3 @@ RUN wget https://services.gradle.org/distributions/gradle-2.10-bin.zip -O /tmp/g
 ENV PATH=/opt/gradle-2.10/bin:$PATH
 
 WORKDIR /workspace
-
