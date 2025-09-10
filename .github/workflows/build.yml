@@ -24,6 +24,8 @@ jobs:
             cd /workspace
 
             # Compile native libs
+            # Tell gnulib to skip fseterr
+            export ac_cv_func_fseterr=no
             ./compile.sh armv7
 
             # Build APK
