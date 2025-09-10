@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -7,6 +7,8 @@ RUN apt-get update && apt-get install -y \
     git curl unzip wget make automake autoconf libtool pkg-config \
     zlib1g-dev libncurses5-dev openjdk-8-jdk \
     python2 python3 zip \
+    cmake ragel protobuf-compiler ant bison flex nasm gettext help2man \
+    meson ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
 # Java environment
@@ -33,5 +35,8 @@ RUN wget https://services.gradle.org/distributions/gradle-2.10-bin.zip -O /tmp/g
     && unzip /tmp/gradle.zip -d /opt \
     && rm /tmp/gradle.zip
 ENV PATH=/opt/gradle-2.10/bin:$PATH
+
+# Workaround for gnulib fseterr.c portability issue
+ENV ac_cv_func_fseterr=no
 
 WORKDIR /workspace

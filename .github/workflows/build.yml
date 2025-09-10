@@ -5,15 +5,14 @@ on:
     branches:  # you can limit if needed
       - "**"   # all branches
   workflow_dispatch: # manual trigger
+  push:
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-
       - name: Build Docker image
         run: docker build -t vlc-android-builder .
 
@@ -23,15 +22,23 @@ jobs:
             set -e
             cd /workspace
 
+            # Clone VLC Android sources if not present
+            if [ ! -d vlc-android ]; then
+              git clone https://code.videolan.org/videolan/vlc-android.git
+            fi
+            cd vlc-android
+            git fetch --all
+            git checkout 1.7.5
+
+            # Mark repo as safe for Git (fix dubious ownership warning)
+            git config --global --add safe.directory /workspace/vlc-android
+
             # Compile native libs
-            # Tell gnulib to skip fseterr
-            export ac_cv_func_fseterr=no
             ./compile.sh armv7
 
             # Build APK
             ./gradlew assembleDebug
           "
-
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
