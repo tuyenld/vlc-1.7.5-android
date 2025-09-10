@@ -38,6 +38,8 @@ jobs:
             git config --global --add safe.directory /workspace/vlc-android
 
             # Compile native libs
+            # Make sure script is executable
+            chmod +x compile.sh
             ./compile.sh armv7
 
             # Build APK
