@@ -22,12 +22,11 @@ RUN wget https://dl.google.com/android/android-sdk_r24.4.1-linux.tgz -O /tmp/sdk
     && mv /opt/android-sdk-linux $ANDROID_SDK \
     && rm /tmp/sdk.tgz
 
-# Install Android NDK r10e
-RUN wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.bin -O /tmp/ndk.bin \
-    && chmod +x /tmp/ndk.bin \
-    && /tmp/ndk.bin -o /opt -y \
-    && rm /tmp/ndk.bin \
-    && mv /opt/android-ndk-r10e $ANDROID_NDK
+# Install Android NDK r10e (use .zip, since .bin is gone)
+RUN wget https://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip -O /tmp/ndk.zip \
+&& unzip /tmp/ndk.zip -d /opt \
+&& rm /tmp/ndk.zip \
+&& mv /opt/android-ndk-r10e $ANDROID_NDK
 
 # Install Gradle 2.10
 RUN wget https://services.gradle.org/distributions/gradle-2.10-bin.zip -O /tmp/gradle.zip \
