@@ -5,14 +5,16 @@ on:
     branches:  # you can limit if needed
       - "**"   # all branches
   workflow_dispatch: # manual trigger
-  push:
-    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-22.04
 
     steps:
+
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: Build Docker image
         run: docker build -t vlc-android-builder .
 
