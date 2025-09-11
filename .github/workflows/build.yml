@@ -39,8 +39,14 @@ jobs:
             # Mark repo as safe for Git (fix dubious ownership warning)
             # git config --global --add safe.directory /workspace/vlc-android
 
-            # Fix libtoolize/glibtoolize mismatch
-            sudo ln -sf $(which libtoolize) /usr/bin/glibtoolize || true
+            # Ensure system tools are available
+            sudo apt-get update && sudo apt-get install -y \
+              automake autoconf libtool pkg-config \
+              cmake ragel protobuf-compiler ant bison flex nasm gettext help2man \
+              meson ninja-build
+            
+            # Trick VLC into skipping extras/tools rebuild
+            touch vlc/extras/tools/.already_built
 
             # Compile native libs
             # Make sure script is executable
