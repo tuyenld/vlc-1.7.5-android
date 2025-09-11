@@ -30,17 +30,18 @@ jobs:
               # git clone https://code.videolan.org/videolan/vlc-android.git
               git clone --branch 1.7.5 https://code.videolan.org/videolan/vlc-android.git
             fi
-            cd vlc-android
-            ls -la
+
+            # cd vlc-android
+            # ls -la
             # git fetch --all
             # git checkout 1.7.5
 
             # Mark repo as safe for Git (fix dubious ownership warning)
-            git config --global --add safe.directory /workspace/vlc-android
+            # git config --global --add safe.directory /workspace/vlc-android
 
             # Compile native libs
             # Make sure script is executable
-            chmod +x compile.sh
+            # chmod +x compile.sh
             ./compile.sh armv7
 
             # Build APK
