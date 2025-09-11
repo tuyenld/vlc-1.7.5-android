@@ -28,7 +28,7 @@ jobs:
             # Clone VLC Android sources if not present
             if [ ! -d vlc-android ]; then
               # git clone https://code.videolan.org/videolan/vlc-android.git
-              git clone --depth 1 --branch 1.7.5 https://code.videolan.org/videolan/vlc-android.git
+              git clone --branch 1.7.5 https://code.videolan.org/videolan/vlc-android.git
             fi
             cd vlc-android
             ls -la
