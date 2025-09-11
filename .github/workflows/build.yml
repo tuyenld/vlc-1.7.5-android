@@ -39,6 +39,9 @@ jobs:
             # Mark repo as safe for Git (fix dubious ownership warning)
             # git config --global --add safe.directory /workspace/vlc-android
 
+            # Fix libtoolize/glibtoolize mismatch
+            sudo ln -sf $(which libtoolize) /usr/bin/glibtoolize || true
+
             # Compile native libs
             # Make sure script is executable
             # chmod +x compile.sh
