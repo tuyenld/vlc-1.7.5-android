@@ -45,7 +45,11 @@ jobs:
               cmake ragel protobuf-compiler ant bison flex nasm gettext help2man \
               meson ninja-build
             
-            # Trick VLC into skipping extras/tools rebuild
+            # Run compile.sh once so it clones the VLC core into vlc/
+            chmod +x compile.sh
+            ./compile.sh fetch
+
+            # Now vlc/ exists → we can trick extras/tools
             touch vlc/extras/tools/.already_built
 
             # Compile native libs
